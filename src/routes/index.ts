@@ -1,11 +1,20 @@
 import { Router } from 'express';
-import AuthRoutes from './auth';
-import UserRoutes from './user';
+import { resolve } from 'path';
+import { readdirSync } from 'fs';
 
 const routes = Router();
 
-routes.use('/auth', AuthRoutes);
+const path = resolve('src', 'routes');
 
-routes.use('/users', UserRoutes);
+const getRoutes = async (file: string) => {
+  const routeName = file.replace('.ts', '');
+  routes.use(`/${routeName}`, (await import(`./${routeName}`)).default);
+}; // Aplicar recursividade para diretórios com rotas
+
+readdirSync(path)
+  .filter((file: string) => (
+    file.indexOf('.') !== 1 && file !== 'index.ts'
+  ))
+  .forEach(getRoutes);
 
 export default routes;
