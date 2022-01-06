@@ -33,6 +33,6 @@
       "@middlewares/*": ["./src/middlewares/*"]
     }
   },
-  "include": ["src/**.ts", "src/**/**.ts", "src/tests/test.js"],
+  "include": ["src/***.ts", "src/tests/test.js"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
